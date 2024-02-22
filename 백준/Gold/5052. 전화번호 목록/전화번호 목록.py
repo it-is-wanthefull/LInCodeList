@@ -1,5 +1,4 @@
 def Solution():
-    answer = True
     my_dict = {}
     my_list = []
 
@@ -10,10 +9,9 @@ def Solution():
     for str in my_list:
         for i in range(len(str)):
             if str[:i] in my_dict:
-                #print(str)
-                answer = False
+                return False
         my_dict[str] = str
-    return answer
+    return True
 
 if __name__ == '__main__':
     for _ in range(int(input())):
