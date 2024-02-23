@@ -2,15 +2,12 @@ from heapq import heapify, heappop, heappush
 from sys import stdin
 input = stdin.readline
 
-class_list = []
-class_q = []
-heapify(class_q)
 
 n = int(input())
-for _ in range(n):
-    start, end = map(int, input().split())
-    class_list.append([start, end])
+class_list = [list(map(int, input().split())) for _ in range(n)]
 class_list.sort()
+class_q = []
+heapify(class_q)
 
 for i in range(n):
     start, end = class_list[i]
