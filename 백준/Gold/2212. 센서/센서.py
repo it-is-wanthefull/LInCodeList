@@ -1,9 +1,7 @@
 n = int(input())
 k = int(input())
-lst = list(map(int, input().split()))
-lst.sort()
-gap = []
-for i in range(n-1):
-    gap.append(lst[i+1] - lst[i])
-gap.sort()
+
+lst = sorted(list(map(int, input().split())))
+gap = sorted([lst[i+1] - lst[i] for i in range(n-1)])
+
 print(sum(gap[:n-k]))
