@@ -1,4 +1,3 @@
 n = int(input())
-lst = list(map(int, input().split()))
-lst.sort()
+lst = sorted(list(map(int, input().split())))
 print(sum(lst[i] * (n-i) for i in range(n)))
