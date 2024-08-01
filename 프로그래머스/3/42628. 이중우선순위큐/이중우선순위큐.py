@@ -1,25 +1,41 @@
+# def solution(operations):
+#     my_list = []
+    
+#     for command in operations:
+#         command1, command2 = command.split(' ')
+        
+#         if command1 == 'I':
+#             my_list.append(int(command2))
+#         if command1 == 'D' and my_list:
+#             my_list.sort()
+#             if command2 == '1':
+#                 my_list.pop()
+#             if command2 == '-1':
+#                 my_list.pop(0)
+                
+#     my_list.sort()
+#     if len(my_list) == 0:
+#         my_list.append(0)
+#     return [my_list[-1], my_list[0]]
+
 import heapq
 
 def solution(operations):
-    my_list = []
-    
-    for command in operations:
-        command1, command2 = command.split(' ')
-        
-        if command1 == 'I':
-            my_list.append(int(command2))
-            my_list.sort()
-        if command1 == 'D' and my_list:
-            if command2 == '1':
-                my_list.pop()
-            if command2 == '-1':
-                my_list.pop(0)
-                
-    if len(my_list) == 0:
-        my_list.append(0)
-    return [my_list[-1], my_list[0]]
+    heap = []
 
-# 1. 2개의 heapq + 크기변수따로 -> O(nlogn)*2 / 문제점: 결국 삭제를 안하면 삭제됐어야하는 값들이 min/max에서 논리적오류 발생
-# 2. list + sort -> O(nlogn)
-# 3. list + min/max -> O(n**2)
-# 3. 완전 새로운 모형?
+    for operation in operations:
+        operator, operand = operation.split(' ')
+        operand = int(operand)
+
+        if operator == 'I':
+            heapq.heappush(heap, operand)
+        elif heap:
+            if operand < 0:
+                heapq.heappop(heap)
+            else:
+                heap.remove(max(heap))
+
+    if not heap:
+        return [0, 0]
+
+    return [max(heap), heap[0]]
