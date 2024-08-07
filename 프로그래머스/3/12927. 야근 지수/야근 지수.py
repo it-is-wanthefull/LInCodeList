@@ -1,31 +1,31 @@
-# def solution(n, works):
-#     works.sort(reverse=True)
+def solution(n, works):
+    works.sort(reverse=True)
     
-#     while True:
-#         for i in range(len(works)):
-#             if works[i] >= works[0] >= 0:
-#                 works[i] -= 1
-#                 n -= 1
-#             if n == 0 or works[-1] == 0:
-#                 return sum(e**2 for e in works)
+    while True:
+        for i in range(len(works)):
+            if works[i] >= works[0] >= 0:
+                works[i] -= 1
+                n -= 1
+            if n == 0 or works[-1] == 0:
+                return sum(e**2 for e in works)
 
             
             
             
             
-def solution(n, works):
-    if sum(works) <= n:
-        return 0
+# def solution(n, works):
+#     if sum(works) <= n:
+#         return 0
     
-    works.sort(reverse=True)
+#     works.sort(reverse=True)
     
-    while True:
-        for i in range(len(works)):
-            if works[i] >= works[0]:
-                works[i] -= 1
-                n -= 1
-            if n == 0:
-                return sum(e**2 for e in works)
+#     while True:
+#         for i in range(len(works)):
+#             if works[i] >= works[0]:
+#                 works[i] -= 1
+#                 n -= 1
+#             if n == 0:
+#                 return sum(e**2 for e in works)
             
             
             
