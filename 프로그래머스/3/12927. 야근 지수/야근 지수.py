@@ -1,13 +1,13 @@
-def solution(n, works):
-    works.sort(reverse=True)
+# def solution(n, works):
+#     works.sort(reverse=True)
     
-    while True:
-        for i in range(len(works)):
-            if works[i] >= works[0] >= 0:
-                works[i] -= 1
-                n -= 1
-            if n == 0 or works[-1] == 0:
-                return sum(e**2 for e in works)
+#     while True:
+#         for i in range(len(works)):
+#             if works[i] >= works[0] >= 0:
+#                 works[i] -= 1
+#                 n -= 1
+#             if n == 0 or works[-1] == 0:
+#                 return sum(e**2 for e in works)
 
             
             
@@ -56,3 +56,28 @@ def solution(n, works):
 #             # == n * ((x-1)^2-x^2)
 #             # == n * (1-2x)
 #             # == n * (1-2*hour)
+
+
+
+
+
+# def solution(n, works):
+#     if n>=sum(works):
+#         return 0;
+
+#     while n > 0:
+#         works[works.index(max(works))] -= 1
+#         n -= 1
+    
+#     return sum([w ** 2 for w in works])
+
+
+
+
+
+from heapq import heapify, heappush, heappop
+def solution(n, works):
+    heapify(works := [-i for i in works])
+    for i in range(min(n, abs(sum(works)))):
+        heappush(works, heappop(works)+1)
+    return sum([i*i for i in works])
