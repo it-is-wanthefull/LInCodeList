@@ -1,3 +1,4 @@
+# 내 풀이
 def solution(n, computers):
     network = 0
     visited = [0] * n
@@ -26,6 +27,7 @@ def solution(n, computers):
 
 
 
+# 베스트채택된 다른사람 풀이
 # def solution(n, computers):
 #     answer = 0
 #     visited = [0 for i in range(n)]
@@ -51,6 +53,7 @@ def solution(n, computers):
 
 
 
+# 간결한 다른사람 풀이
 # def solution(n, computers):
 #     temp = []
 #     for i in range(n):
