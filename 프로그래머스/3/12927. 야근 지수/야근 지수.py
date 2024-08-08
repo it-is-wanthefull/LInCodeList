@@ -1,3 +1,4 @@
+# 내 풀이 1
 # def solution(n, works):
 #     works.sort(reverse=True)
     
@@ -7,12 +8,13 @@
 #                 works[i] -= 1
 #                 n -= 1
 #             if n == 0 or works[-1] == 0:
-#                 return sum(e**2 for e in works)
+#                 return sum(e*e for e in works)
 
             
             
             
             
+# 내 풀이 2 (특수케이스 최적화)
 # def solution(n, works):
 #     if sum(works) <= n:
 #         return 0
@@ -25,31 +27,32 @@
 #                 works[i] -= 1
 #                 n -= 1
 #             if n == 0:
-#                 return sum(e**2 for e in works)
+#                 return sum(e*e for e in works)
             
             
             
             
-            
+
+# 내 풀이 3 (딕셔너리로 성능개선)
 from collections import Counter
 
 def solution(n, works):
     if sum(works) <= n:
         return 0
     
-    times = sorted(Counter(works).items(), reverse=True)
+    labors = sorted(Counter(works).items(), reverse=True)
     
     while True:
-        hour, count = times[0]
+        hour, count = labors[0]
         if n > count:
             n -= count
-            if len(times)>1 and hour-1 == times[1][0]:
-                times[1] = (times[1][0], times[1][1]+count)
-                times.pop(0)
+            if len(labors)>1 and hour-1 == labors[1][0]:
+                labors[1] = (labors[1][0], labors[1][1]+count)
+                labors.pop(0)
             else:
-                times[0] = (hour-1, count)
+                labors[0] = (hour-1, count)
         else:
-            return sum(k*k*v for k, v in times) + n*(1-2*hour)
+            return sum(h*h*c for h,c in labors) + n*(1-2*hour)
             # -hour**2*n +(hour-1)**2*n
             # == -nx^2 + n(x-1)^2
             # == n(x-1)^2 - nx^2
@@ -61,6 +64,7 @@ def solution(n, works):
 
 
 
+# 베스트채택된 다른사람 풀이 (구버전)
 # def solution(n, works):
 #     if n>=sum(works):
 #         return 0;
@@ -73,6 +77,7 @@ def solution(n, works):
 
 
 
+# 베스트채택된 다른사람 풀이 (신버전)
 # from heapq import heapify, heappush, heappop
 # def solution(n, works):
 #     heapify(works := [-i for i in works])
@@ -84,6 +89,7 @@ def solution(n, works):
 
 
 
+# 많이 엉망인 다른사람 풀이
 # def solution(n, works):
 #     while n>=1:
 #         works.sort()
