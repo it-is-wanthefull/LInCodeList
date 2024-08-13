@@ -1,3 +1,4 @@
+# 내 풀이:
 # from collections import Counter
 
 # def solution(food_times, k):
@@ -28,59 +29,57 @@
 
 
 
-def solution(food_times, k):
-    food_times_dic = {}
-    food_times_list = []
-    totalTime = 0
-
-    for i in range(0, len(food_times)):
-        food_times_list.append([i, food_times[i]])
-        totalTime+=food_times[i]
-
-    if totalTime <= k:
-        return -1
-
-    food_times_list = sorted(food_times_list, key=lambda x:x[1])
-
-    delTime = food_times_list[0][1]*len(food_times_list)
-    i=1
-    # print k
-    # print delTime
-    while delTime < k:
-        k-=delTime
-        delTime = (food_times_list[i][1]-food_times_list[i-1][1])*(len(food_times_list)-i)
-        # print k, delTime
-        i+=1
-
-    food_times_list = sorted(food_times_list[i-1:], key=lambda x:x[0])
-    # print food_times_list
-    # print k
-    return food_times_list[k%len(food_times_list)][0]+1
-
-
-
-
-
+# 베스트채택된 다른사람 풀이:
 # def solution(food_times, k):
-#     if sum(food_times) <= k:
+#     food_times_dic = {}
+#     food_times_list = []
+#     totalTime = 0
+
+#     for i in range(0, len(food_times)):
+#         food_times_list.append([i, food_times[i]])
+#         totalTime+=food_times[i]
+
+#     if totalTime <= k:
 #         return -1
-#     def remain_dishes():
-#         return len(food_times)-food_times.count(0)
+
+#     food_times_list = sorted(food_times_list, key=lambda x:x[1])
+
+#     delTime = food_times_list[0][1]*len(food_times_list)
+#     i=1
     
-#     while True:
-#         d = k // remain_dishes()
-#         r = k %  remain_dishes()
+#     while delTime < k:
+#         k-=delTime
+#         delTime = (food_times_list[i][1]-food_times_list[i-1][1])*(len(food_times_list)-i)
+#         i+=1
 
-#         for index in range(len(food_times)):
-#             if food_times[index] != 0:
-#                 food_times[index] -= d
-#                 if food_times[index] < 0:
-#                     r += abs(food_times[index])
-#                     food_times[index] = 0
-#             k = r
+#     food_times_list = sorted(food_times_list[i-1:], key=lambda x:x[0])
+#     return food_times_list[k%len(food_times_list)][0]+1
 
-#         if remain_dishes() > k:
-#             for index in range(len(food_times)):
-#                 if food_times[index] != 0:
-#                     if (k:=k-1) < 0:
-#                         return index+1
+
+
+
+
+# 색다른방법의 다른사람 풀이:
+def solution(food_times, k):
+    if sum(food_times) <= k:
+        return -1
+    def remain_dishes():
+        return len(food_times)-food_times.count(0)
+    
+    while True:
+        d = k // remain_dishes()
+        r = k %  remain_dishes()
+
+        for index in range(len(food_times)):
+            if food_times[index] != 0:
+                food_times[index] -= d
+                if food_times[index] < 0:
+                    r += abs(food_times[index])
+                    food_times[index] = 0
+            k = r
+
+        if remain_dishes() > k:
+            for index in range(len(food_times)):
+                if food_times[index] != 0:
+                    if (k:=k-1) < 0:
+                        return index+1
