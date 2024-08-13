@@ -1,127 +1,86 @@
-from collections import Counter
+# from collections import Counter
+
+# def solution(food_times, k):
+#     if sum(food_times) <= k:
+#         return -1
+    
+#     value_count_list = sorted(Counter(food_times).items()) +[(100000001,0)]
+#     prev_value, num_rotate, num_remain = 0, 0, len(food_times)
+    
+#     for value, count in value_count_list:
+#         gap = min((full:=value-prev_value), (caculated:=int(k/num_remain)))
+#         k -= num_remain*gap
+#         num_rotate += gap
+#         num_remain -= count
+#         prev_value = value
+        
+#         if gap != full:
+#             for index in range(len(food_times)):
+#                 if food_times[index] > num_rotate:
+#                     if (k:=k-1) < 0:
+#                         return index+1
+                    
+# 2. (value,index) dict
+# 3. (value,index) list
+# 4. list.pop(0) 대신 list[next_index]
+
+
+
+
 
 def solution(food_times, k):
-    if sum(food_times) <= k:
+    food_times_dic = {}
+    food_times_list = []
+    totalTime = 0
+
+    for i in range(0, len(food_times)):
+        food_times_list.append([i, food_times[i]])
+        totalTime+=food_times[i]
+
+    if totalTime <= k:
         return -1
-    
-    tuple_ = sorted(Counter(food_times).items()) +[(100000001,0)]
-    num_nonzero = len(food_times)
-    cut_line, prev_value = 0, 0
-    
-    for i in range(len(tuple_)):
-        value, count = tuple_[i]
-        low_limit, high_limit = 1, value - prev_value
-        gap = min(high_limit, int(k/num_nonzero))
-        
-        if gap >= high_limit:
-            cut_line += gap
-            k -= num_nonzero*gap
-            num_nonzero -= count
-            prev_value = value
-            
-        elif gap >= low_limit:
-            cut_line += gap
-            k -= num_nonzero*gap
-            
-        else:
-            for i in range(len(food_times)):
-                if food_times[i] > cut_line:
-                    k -= 1
-                    if k < 0:
-                        return i+1
+
+    food_times_list = sorted(food_times_list, key=lambda x:x[1])
+
+    delTime = food_times_list[0][1]*len(food_times_list)
+    i=1
+    # print k
+    # print delTime
+    while delTime < k:
+        k-=delTime
+        delTime = (food_times_list[i][1]-food_times_list[i-1][1])*(len(food_times_list)-i)
+        # print k, delTime
+        i+=1
+
+    food_times_list = sorted(food_times_list[i-1:], key=lambda x:x[0])
+    # print food_times_list
+    # print k
+    return food_times_list[k%len(food_times_list)][0]+1
 
 
 
 
-
-# from collections import OrderedDict, defaultdict
 
 # def solution(food_times, k):
-#     # if sum(food_times) <= k:
-#     #     return -1
-    
-#     food_sum = 0
-#     food_dict = defaultdict(list)
-#     count_dict = defaultdict(int)
-    
-#     for index in range(len(food_times)):
-#         value = food_times[index]
-#         food_sum += value
-#         food_dict[value].append(index)
-#         count_dict[value] += 1
-    
-#     if food_sum <= k:
+#     if sum(food_times) <= k:
 #         return -1
-    
-#     food_dict = OrderedDict(sorted(food_dict.items()))
-#     count_tuple = sorted(count_dict.items()) +[(100000001,0)]
-    
-#     num_nonzero = len(food_times)
-#     cut_line, prev_value = 0, 0
+#     def remain_dishes():
+#         return len(food_times)-food_times.count(0)
     
 #     while True:
-#         value, count = count_tuple[0]
-#         low_limit, high_limit = 1, value - prev_value
-#         gap = min(high_limit, int(k/num_nonzero))
-        
-#         if gap >= high_limit:
-#             k -= num_nonzero*gap
-#             cut_line += gap
-#             num_nonzero -= count
-#             prev_value = value
-#             count_tuple.pop(0)
-#             food_dict.pop(value)
-            
-#         elif gap >= low_limit:
-#             k -= num_nonzero*gap
-#             cut_line += gap
-            
-#         else:
-#             all_values = [value for sublist in food_dict.values() for value in sublist]
-#             sorted_values = sorted(all_values)
-#             return sorted_values[k]+1
+#         d = k // remain_dishes()
+#         r = k %  remain_dishes()
 
+#         for index in range(len(food_times)):
+#             if food_times[index] != 0:
+#                 food_times[index] -= d
+#                 if food_times[index] < 0:
+#                     r += abs(food_times[index])
+#                     food_times[index] = 0
+#             k = r
 
-
-
-
-# from collections import defaultdict
-# def solution(food_times, k):
-#     food_sum = 0
-#     food_list = []
-#     count_dict = defaultdict(int)
-    
-#     for index in range(len(food_times)):
-#         value = food_times[index]
-#         food_sum += value
-#         food_list.append( (value, index) )
-#         count_dict[value] += 1
-    
-#     if food_sum <= k:
-#         return -1
-    
-#     food_list.sort()
-#     count_tuple = sorted(count_dict.items()) +[(100000001,0)]
-    
-#     num_nonzero = len(food_times)
-#     cut_line, prev_value = 0, 0
-    
-#     while True:
-#         value, count = count_tuple[0]
-#         low_limit, high_limit = 1, value - prev_value
-#         gap = min(high_limit, int(k/num_nonzero))
-        
-#         if gap >= high_limit:
-#             k -= num_nonzero*gap
-#             cut_line += gap
-#             num_nonzero -= count
-#             prev_value = value
-#             count_tuple.pop(0)
-            
-#         elif gap >= low_limit:
-#             k -= num_nonzero*gap
-#             cut_line += gap
-            
-#         else:
-#             final = sorted(food_list[len(food_list)-num_nonzero:], key=lambda x: x[1])
-#             return final[k][1]+1
+#         if remain_dishes() > k:
+#             for index in range(len(food_times)):
+#                 if food_times[index] != 0:
+#                     if (k:=k-1) < 0:
+#                         return index+1
