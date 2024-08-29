@@ -15,17 +15,17 @@
 
 // 내 풀이 2: '올바른 괄호' 유형의 문제를 떠올리고 stack을 이용하여 풀이
 function solution(s) {
+    // if (s.length % 2 == 1)
+    //     return 0;
+    
     stk = [];
     
-    for (i=0; i<s.length; i++) {
-        l = stk.length;
-        if (l==0 || stk[l-1]!=s[i])
-            stk.push(s[i]);
+    for (i of s) {
+        if (stk[stk.length-1]!=i) // JS에선 stk이 중간에 비어 인덱스가 -1이 되면 false 처리 됨
+            stk.push(i);
         else
             stk.pop();
     }
     
-    if (stk.length==0)
-        return 1;
-    return 0;
+    return Number(stk.length==0);
 }
