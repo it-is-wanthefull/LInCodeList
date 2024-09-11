@@ -1,14 +1,14 @@
 # 내 풀이 1
-# def solution(n, works):
-#     works.sort(reverse=True)
+def solution(n, works):
+    works.sort(reverse=True)
     
-#     while True:
-#         for i in range(len(works)):
-#             if works[i] >= works[0] >= 0:
-#                 works[i] -= 1
-#                 n -= 1
-#             if n == 0 or works[-1] == 0:
-#                 return sum(e*e for e in works)
+    while True:
+        for i in range(len(works)):
+            if works[i] >= works[0] >= 0:
+                works[i] -= 1
+                n -= 1
+            if n == 0 or works[-1] == 0:
+                return sum(e*e for e in works)
 
             
             
@@ -33,32 +33,32 @@
             
             
 
-# 내 풀이 3 (딕셔너리로 성능개선)
-from collections import Counter
+# 내 풀이 3
+# from collections import Counter
 
-def solution(n, works):
-    if sum(works) <= n:
-        return 0
+# def solution(n, works):
+#     if sum(works) <= n:
+#         return 0
     
-    labors = sorted(Counter(works).items(), reverse=True)
+#     labors = sorted(Counter(works).items(), reverse=True)
     
-    while True:
-        hour, count = labors[0]
-        if n > count:
-            n -= count
-            if len(labors)>1 and hour-1 == labors[1][0]:
-                labors[1] = (labors[1][0], labors[1][1]+count)
-                labors.pop(0)
-            else:
-                labors[0] = (hour-1, count)
-        else:
-            return sum(h*h*c for h,c in labors) + n*(1-2*hour)
-            # -hour**2*n +(hour-1)**2*n
-            # == -nx^2 + n(x-1)^2
-            # == n(x-1)^2 - nx^2
-            # == n * ((x-1)^2-x^2)
-            # == n * (1-2x)
-            # == n * (1-2*hour)
+#     while True:
+#         hour, count = labors[0]
+#         if n > count:
+#             n -= count
+#             if len(labors)>1 and hour-1 == labors[1][0]:
+#                 labors[1] = (labors[1][0], labors[1][1]+count)
+#                 labors.pop(0)
+#             else:
+#                 labors[0] = (hour-1, count)
+#         else:
+#             return sum(h*h*c for h,c in labors) + n*(1-2*hour)
+#             # -hour**2*n +(hour-1)**2*n
+#             # == -nx^2 + n(x-1)^2
+#             # == n(x-1)^2 - nx^2
+#             # == n * ((x-1)^2-x^2)
+#             # == n * (1-2x)
+#             # == n * (1-2*hour)
 
 
 
