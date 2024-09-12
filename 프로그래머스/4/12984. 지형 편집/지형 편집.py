@@ -1,31 +1,31 @@
-# # 내 풀이 1: 1) land를 같은층수끼리 Counter로 압축, 2) 적정층수 예측, 3) 2진탐색으로 오차 조정
+# 내 풀이 1: 1) land를 같은층수끼리 Counter로 압축, 2) 적정층수 예측, 3) 2진탐색으로 오차 조정
 
-# from collections import Counter
-# from math import ceil, log2
+from collections import Counter
+from math import ceil, log2
 
-# def solution(land, P, Q):
-#     def cost(cur_floor): # 해당층으로 평탄화 할때 비용 계산
-#         sum_ = 0
-#         for floor, num in dic.items():
-#             diff = floor - cur_floor
-#             if diff < 0:    sum_ -= diff * num * P
-#             else:           sum_ += diff * num * Q
-#         return sum_
+def solution(land, P, Q):
+    def cost(cur_floor): # 해당층으로 평탄화 할때 비용 계산
+        sum_ = 0
+        for floor, num in dic.items():
+            diff = floor - cur_floor
+            if diff < 0:    sum_ -= diff * num * P
+            else:           sum_ += diff * num * Q
+        return sum_
     
-#     dic = Counter(f for l in land for f in l)                   # land를 같은층수끼리 묶은 딕셔너리 (key=층,value=같은층블럭수)
-#     TOTAL_BLOCK = sum(f*n for f,n in dic.items())               # 전체 블럭수
-#     FLOOR_BLOCK = len(land) ** 2                                # 밑면 면적
-#     cur_floor = ESTIMATE_FLOOR = TOTAL_BLOCK // FLOOR_BLOCK     # 적정층수 예측
-#     min_ = ESTIMATE_FLOOR_COST = cost(ESTIMATE_FLOOR)           # 적정층수의 비용 계산
-#     MAX_FLOOR = max(max(dic),2)                                 # 최고층탐색, 단 0~1층인 경우 2층으로 산정
-#     bin_ = 2 ** ceil(log2(MAX_FLOOR))                           # 최고층보다는 큰 2의제곱수를 계산, 2진탐색을 위함
+    dic = Counter(f for l in land for f in l)                   # land를 같은층수끼리 묶은 딕셔너리 (key=층,value=같은층블럭수)
+    TOTAL_BLOCK = sum(f*n for f,n in dic.items())               # 전체 블럭수
+    FLOOR_BLOCK = len(land) ** 2                                # 밑면 면적
+    cur_floor = ESTIMATE_FLOOR = TOTAL_BLOCK // FLOOR_BLOCK     # 적정층수 예측
+    min_ = ESTIMATE_FLOOR_COST = cost(ESTIMATE_FLOOR)           # 적정층수의 비용 계산
+    MAX_FLOOR = max(max(dic),2)                                 # 최고층탐색, 단 0~1층인 경우 2층으로 산정
+    bin_ = 2 ** ceil(log2(MAX_FLOOR))                           # 최고층보다는 큰 2의제곱수를 계산, 2진탐색을 위함
     
-#     while (bin_:=bin_//2) != 0:                                 # 2진탐색으로 오차 조정
-#         up, down = cost(cur_floor +bin_), cost(cur_floor -bin_)
-#         if   up   < min_:     min_ = up;       cur_floor += bin_
-#         elif down < min_:     min_ = down;     cur_floor -= bin_
+    while (bin_:=bin_//2) != 0:                                 # 2진탐색으로 오차 조정
+        up, down = cost(cur_floor +bin_), cost(cur_floor -bin_)
+        if   up   < min_:     min_ = up;       cur_floor += bin_
+        elif down < min_:     min_ = down;     cur_floor -= bin_
     
-#     return min_
+    return min_
 
 
 
@@ -59,3 +59,23 @@ def solution(land, P, Q):
         up   -= count
     
     return min_cost
+
+
+
+
+
+# 다른사람 풀이: 비례식으로 답을 1번에 계산, but 그 1번에 계산이 좀 무거움
+
+def solution(land, P, Q):
+    answer = 0
+    linear_land = sum(land, [])
+    linear_land.sort()
+    N_square = len(land)**2
+    max_count = int((N_square*Q)/(Q+P))
+    small = linear_land[:max_count]
+    big = linear_land[max_count:]
+    mid = linear_land[max_count]
+    answer += ((mid*len(small) - sum(small))) * P
+    answer += (sum(big) - (mid*len(big))) * Q
+
+    return answer
