@@ -18,7 +18,6 @@ def solution(user_id, banned_id):
         if len(outer_list) == 0:
             final_set.add(tuple(sorted(selected_list)))
             return
-        
         for selected in outer_list[0]:
             if selected not in selected_list:
                 new_selected_list = selected_list + [selected]
