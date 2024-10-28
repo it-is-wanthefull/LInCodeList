@@ -13,13 +13,6 @@ def solution(user_id, banned_id):
                 inner_list.append(u)
                 
         outer_list.append(inner_list)
-        
-    # 8의8승=16초, 8팩토리얼=0.04초
-#     for p in product(*outer_list):
-#         if len(set(p)) == len(p):
-#             final_set.add(tuple(sorted(p)))
-            
-#     return len(final_set)
     
     def combination_of_list(outer_list, selected_list, final_set):
         if len(outer_list) == 0:
