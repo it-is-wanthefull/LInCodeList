@@ -30,3 +30,12 @@ def solution(sequence):
             s4.append(s4.pop()     + s4.pop()     + s4.pop()    )
     
     return max(max(s4), -min(s4)) # '-min'은 반전버전을 고려한 것
+
+
+
+
+
+def solution(sequence):
+    v = [0]
+    for i,s in enumerate(sequence): v.append(v[-1] + s * [1,-1][i%2])
+    return max(v) - min(v)
